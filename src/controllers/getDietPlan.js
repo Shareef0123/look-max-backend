@@ -26,9 +26,9 @@ exports.getDietPlanForToday = async (req, res) => {
     }
 
     const planDoc = snapshot.docs[0].data();
-    // console.log(planDoc.plan);
+    console.log(planDoc);
 
-    const daysArray = planDoc.plan.dietPlan.days;
+    const daysArray = planDoc.plan;
 
     const todayDiet = daysArray?.find(
       (d) => d.day.toLowerCase() === todayKey.toLowerCase()
