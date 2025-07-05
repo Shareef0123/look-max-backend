@@ -21,7 +21,7 @@ exports.getWorkoutPlanForToday = async (req, res) => {
     }
 
     const planDoc = snapshot.docs[0].data();
-    console.log(planDoc.plan.workoutPlan.days);
+    console.log(planDoc.plan.workoutPlan);
 
     const todayWorkout = planDoc.plan.workoutPlan[todayKey];
 
