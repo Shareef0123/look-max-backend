@@ -5,9 +5,16 @@ exports.getWorkoutPlanForToday = async (req, res) => {
     const userId = req.user.userId;
 
     // Map: Sunday (0) → day7, Monday (1) → day1, ..., Saturday (6) → day6
-    const todayIndex = new Date().getDay();
-    const dayMap = ["day7", "day1", "day2", "day3", "day4", "day5", "day6"];
-    const todayKey = dayMap[todayIndex];
+    const weekdays = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const todayKey = weekdays[new Date().getDay()];
 
     const snapshot = await db
       .collection("workoutPlans")
