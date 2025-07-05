@@ -4,7 +4,6 @@ exports.getWorkoutPlanForToday = async (req, res) => {
   try {
     const userId = req.user.userId;
 
-    // Map: Sunday (0) → day7, Monday (1) → day1, ..., Saturday (6) → day6
     const weekdays = [
       "Sunday",
       "Monday",
@@ -28,11 +27,9 @@ exports.getWorkoutPlanForToday = async (req, res) => {
     }
 
     const planDoc = snapshot.docs[0].data();
-    console.log(planDoc.plan.workoutPlan.days);
+    const daysArray = planDoc.plan.workoutPlan.days;
 
-    const todayWorkout1 = planDoc.plan.workoutPlan.days[todayKey];
-
-    const todayWorkout = todayWorkout1?.find(
+    const todayWorkout = daysArray.find(
       (d) => d.day.toLowerCase() === todayKey.toLowerCase()
     );
 
