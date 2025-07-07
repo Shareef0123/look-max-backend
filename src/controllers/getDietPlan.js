@@ -1,4 +1,5 @@
 const db = require("../config/db");
+
 exports.getDietPlanForToday = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -12,22 +13,19 @@ exports.getDietPlanForToday = async (req, res) => {
       "Saturday",
     ];
     const todayKey = weekdays[new Date().getDay()];
+
     const snapshot = await db
       .collection("dietPlans")
       .where("userId", "==", userId)
       .get();
 
-    // console.log("This is the snapshot", snapshot);
-
-    if (snapshot.empty === true) {
+    if (snapshot.empty) {
       return res
         .status(404)
         .json({ error: "No diet plan found for this user." });
     }
 
     const planDoc = snapshot.docs[0].data();
-    console.log(planDoc);
-
     const daysArray = planDoc.plan;
 
     const todayDiet = daysArray?.find(
@@ -37,16 +35,13 @@ exports.getDietPlanForToday = async (req, res) => {
     if (!todayDiet) {
       return res.status(404).json({ error: `No diet found for ${todayKey}.` });
     }
-<<<<<<< HEAD
+
     const mealsWithIsDone = todayDiet.meals.map((meal) => ({
       ...meal,
       isDone: false,
     }));
-    res.json({ day: todayKey, meals: mealsWithIsDone });
-=======
 
-    res.json({ day: todayKey, meals: todayDiet.meals });
->>>>>>> 63fbeeced77bea01c5beb97d146447b715fe62c8
+    res.json({ day: todayKey, meals: mealsWithIsDone });
   } catch (error) {
     console.log(error);
     res.status(500).json({

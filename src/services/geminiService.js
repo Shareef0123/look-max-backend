@@ -22,7 +22,12 @@ exports.callGeminiAndParseJSON = async (prompt) => {
   }
 
   // Choose the earliest start position (either '{' or '[')
-  const jsonStart = startObj === -1 ? startArr : (startArr === -1 ? startObj : Math.min(startObj, startArr));
+  const jsonStart =
+    startObj === -1
+      ? startArr
+      : startArr === -1
+      ? startObj
+      : Math.min(startObj, startArr);
 
   const endObj = cleanedRaw.lastIndexOf("}");
   const endArr = cleanedRaw.lastIndexOf("]");
@@ -31,7 +36,8 @@ exports.callGeminiAndParseJSON = async (prompt) => {
   }
 
   // Choose the latest end position (either '}' or ']')
-  const jsonEnd = endObj === -1 ? endArr : (endArr === -1 ? endObj : Math.max(endObj, endArr));
+  const jsonEnd =
+    endObj === -1 ? endArr : endArr === -1 ? endObj : Math.max(endObj, endArr);
 
   const cleanJson = cleanedRaw.substring(jsonStart, jsonEnd + 1).trim();
 
@@ -68,12 +74,17 @@ exports.generateHealthInsightsPrompt = ({
                                                               - Current Weight: ${weight}kg
                                                               - Target Weight: ${targetWeight}kg (in ${targetDate} days)
                                                               - Height: ${height}cm
-                                                              - BMI: ${bmi.toFixed(2)}, BMR: ${bmr.toFixed(2)}, TDEE: ${tdee.toFixed(
+                                                              - BMI: ${bmi.toFixed(
+                                                                2
+                                                              )}, BMR: ${bmr.toFixed(
     2
-  )}, Adjusted TDEE: ${adjustedTDEE.toFixed(2)}
+  )}, TDEE: ${tdee.toFixed(2)}, Adjusted TDEE: ${adjustedTDEE.toFixed(2)}
                                                                     - Activity Level: ${activityLevel}
                                                                     - Goal: ${goal}
-                                                                    - Weight Change Target: ${weightChangeAmount || 0}kg
+                                                                    - Weight Change Target: ${
+                                                                      weightChangeAmount ||
+                                                                      0
+                                                                    }kg
                                                                     - Health Issues: ${healthIssues}
 
                                                                     Give personalized suggestions.`;
@@ -126,7 +137,9 @@ Constraints:
 - Each meal **must** have: "meal", "food", "calories", and "isDone"
 - "isDone" should always be set to false by default.
 - Do NOT return null or missing values. Use realistic foods and calorie values.
-- Total daily calories should be close to Adjusted TDEE: ${adjustedTDEE.toFixed(2)} kcal/day (±50 kcal).
+- Total daily calories should be close to Adjusted TDEE: ${adjustedTDEE.toFixed(
+    2
+  )} kcal/day (±50 kcal).
 - No markdown, explanation, or extra text — only return valid JSON array of 7 days.
 
 Use the following user profile (DO NOT include this in the response):
@@ -165,13 +178,14 @@ The returned JSON must contain:
     "workoutPlan": [  // Array of 7 objects (Monday to Sunday)
       {
         "day": "Monday",
+        "isDone" : false,
         "exercises": [
           {
             "name": "Exercise Name",
             "sets": 3,
             "reps": 10,
             "duration": "30 minutes" // OR "-" if not applicable,
-            "isDone" : "false"
+            
           },
           ...
         ]

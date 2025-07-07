@@ -26,7 +26,9 @@ exports.register = async (req, res) => {
       return res.status(400).json({ error: "Phone already exists" });
 
     await db.collection("user-collection").add({ name, phone, pin });
-    res.status(201).json({ "name" : name, "phone" : phone, message: "user registered" });
+    res
+      .status(201)
+      .json({ name: name, phone: phone, message: "user registered" });
   } catch (error) {
     res.status(500).json({ error: "server error" });
   }
@@ -51,13 +53,13 @@ exports.login = async (req, res) => {
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
     return res.json({
-      "name" : user.name,
-      "phone" : user.phone,
+      name: user.name,
+      phone: user.phone,
       "Access Token": accessToken,
       "Refresh Token": refreshToken,
-      "photoUrl" : user.photoUrl || null
+      photoUrl: user.photoUrl || null,
     });
   } catch (error) {
-    res.status(500).json({ error: "server error" });
+    res.status(500).json({ error: `server error ${error}` });
   }
 };

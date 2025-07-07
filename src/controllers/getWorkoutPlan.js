@@ -27,24 +27,11 @@ exports.getWorkoutPlanForToday = async (req, res) => {
     }
 
     const planDoc = snapshot.docs[0].data();
-<<<<<<< HEAD
     const daysArray = planDoc.plan.workoutPlan.days;
     console.log(daysArray);
     console.log("with plan  ", planDoc.plan);
     console.log("with workout plan  ", planDoc.plan.workoutPlan);
     console.log("with days  ", planDoc.plan.workoutPlan.days);
-=======
-    const daysArray = planDoc.plan.workoutPlan;
-    console.log(daysArray);
-    console.log("with plan  ",planDoc.plan);
-    console.log("with workout plan  ",planDoc.plan.workoutPlan);
-    console.log("with days  ", planDoc.plan.workoutPlan.days);
-    
-    
-    
-
-    
->>>>>>> 63fbeeced77bea01c5beb97d146447b715fe62c8
 
     const todayWorkout = daysArray.find(
       (d) => d.day.toLowerCase() === todayKey.toLowerCase()
@@ -56,7 +43,6 @@ exports.getWorkoutPlanForToday = async (req, res) => {
         .json({ error: `No workout found for ${todayKey}.` });
     }
 
-<<<<<<< HEAD
     const excercisesWithIsDone = todayWorkout.exercises.map((excercise) => ({
       ...excercise,
       isDone: false,
@@ -65,11 +51,6 @@ exports.getWorkoutPlanForToday = async (req, res) => {
     res.status(200).json({
       day: todayKey,
       exercises: excercisesWithIsDone,
-=======
-    res.status(200).json({
-      day: todayKey,
-      exercises: todayWorkout.exercises,
->>>>>>> 63fbeeced77bea01c5beb97d146447b715fe62c8
     });
   } catch (error) {
     console.error("❌ Error fetching workout plan:", error);

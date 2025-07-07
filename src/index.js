@@ -7,6 +7,9 @@ const dietRoutes = require("./routes/dietRoutes");
 const workoutRoute = require("./routes/workoutRoute");
 const updateRoute = require("./routes/updateRoute");
 const getProfile = require("./routes/getProfile");
+// const checkMeals = require("./routes/checkMealsRoute");
+const checkBreakfast = require("./routes/checkMealsRoute");
+const checkWorkout = require("./routes/checkWorkoutRoute");
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -18,6 +21,8 @@ app.use("/dietToday", dietRoutes);
 app.use("/workoutToday", workoutRoute);
 app.use("/updateProfile", updateRoute);
 app.use("/getProfile", getProfile);
+app.use("/checkMeals", checkBreakfast);
+app.use("/checkWorkout", checkWorkout);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
