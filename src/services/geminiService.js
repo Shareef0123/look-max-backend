@@ -165,13 +165,14 @@ The returned JSON must contain:
     "workoutPlan": [  // Array of 7 objects (Monday to Sunday)
       {
         "day": "Monday",
+        "isDone" : "false",
         "exercises": [
           {
             "name": "Exercise Name",
             "sets": 3,
             "reps": 10,
             "duration": "30 minutes" // OR "-" if not applicable,
-            "isDone" : "false"
+            
           },
           ...
         ]
