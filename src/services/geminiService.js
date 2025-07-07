@@ -96,49 +96,52 @@ exports.generateDietPrompt = ({
 }) => {
   return `Generate a 7-day ${mealType} diet plan in valid JSON format only. Do not include beef or pork in any meals.
 
-                                                                                                Each day should be structured as:
-                                                                                                {
-                                                                                                  "day": "Monday",
-                                                                                                    "meals": [
-                                                                                                        {
-                                                                                                              "meal": "Breakfast",
-                                                                                                                    "food": "Oatmeal with berries and almonds",
-                                                                                                                          "calories": 350
-                                                                                                                              },
-                                                                                                                                  {
-                                                                                                                                        "meal": "Lunch",
-                                                                                                                                              "food": "Grilled vegetable wrap with hummus",
-                                                                                                                                                    "calories": 500
-                                                                                                                                                        },
-                                                                                                                                                            {
-                                                                                                                                                                  "meal": "Dinner",
-                                                                                                                                                                        "food": "Tofu stir-fry with brown rice",
-                                                                                                                                                                              "calories": 600
-                                                                                                                                                                                  }
-                                                                                                                                                                                    ]
-                                                                                                                                                                                    }
+Each day should be structured as:
+{
+  "day": "Monday",
+  "meals": [
+    {
+      "meal": "Breakfast",
+      "food": "Oatmeal with berries and almonds",
+      "calories": 350,
+      "isDone": false
+    },
+    {
+      "meal": "Lunch",
+      "food": "Grilled vegetable wrap with hummus",
+      "calories": 500,
+      "isDone": false
+    },
+    {
+      "meal": "Dinner",
+      "food": "Tofu stir-fry with brown rice",
+      "calories": 600,
+      "isDone": false
+    }
+  ]
+}
 
-                                                                                                                                                                                    Constraints:
-                                                                                                                                                                                    - Each day **must** have 3 meals: Breakfast, Lunch, Dinner.
-                                                                                                                                                                                    - Each meal **must** have: "meal", "food", "calories"
-                                                                                                                                                                                    - Do NOT return null or missing values. Use realistic foods and calorie values.
-                                                                                                                                                                                    - Total daily calories should be close to Adjusted TDEE: ${adjustedTDEE.toFixed(
-    2
-  )} kcal/day (±50 kcal).
-                                                                                                                                                                                          - No markdown, explanation, or extra text — only return valid JSON array of 7 days.
+Constraints:
+- Each day **must** have 3 meals: Breakfast, Lunch, Dinner.
+- Each meal **must** have: "meal", "food", "calories", and "isDone"
+- "isDone" should always be set to false by default.
+- Do NOT return null or missing values. Use realistic foods and calorie values.
+- Total daily calories should be close to Adjusted TDEE: ${adjustedTDEE.toFixed(2)} kcal/day (±50 kcal).
+- No markdown, explanation, or extra text — only return valid JSON array of 7 days.
 
-                                                                                                                                                                                          User Info:
-                                                                                                                                                                                          - Gender: ${gender}
-                                                                                                                                                                                          - Age: ${age}
-                                                                                                                                                                                          - Weight: ${weight}kg → Target: ${targetWeight}kg in ${targetDate} days
-                                                                                                                                                                                          - Height: ${height}cm
-                                                                                                                                                                                          - Goal: ${goal}
-                                                                                                                                                                                          - Activity Level: ${activityLevel}
-                                                                                                                                                                                          - Health Issues: ${healthIssues || "None"}
-                                                                                                                                                                                          - TDEE: ${tdee.toFixed(2)}
-                                                                                                                                                                                          - Adjusted TDEE: ${adjustedTDEE.toFixed(2)}
-                                                                                                                                                                                          - Weight Change Target: ${weightChangeAmount || 0}kg
-                                                                                                                                                                                          `;
+Use the following user profile (DO NOT include this in the response):
+
+- Gender: ${gender}
+- Age: ${age}
+- Weight: ${weight}kg → Target: ${targetWeight}kg in ${targetDate} days
+- Height: ${height}cm
+- Goal: ${goal}
+- Activity Level: ${activityLevel}
+- Health Issues: ${healthIssues || "None"}
+- TDEE: ${tdee.toFixed(2)}
+- Adjusted TDEE: ${adjustedTDEE.toFixed(2)}
+- Weight Change Target: ${weightChangeAmount || 0}kg
+`;
 };
 
 exports.generateWorkoutPrompt = ({
@@ -167,7 +170,8 @@ The returned JSON must contain:
             "name": "Exercise Name",
             "sets": 3,
             "reps": 10,
-            "duration": "30 minutes" // OR "-" if not applicable
+            "duration": "30 minutes" // OR "-" if not applicable,
+            "isDone" : "false"
           },
           ...
         ]
