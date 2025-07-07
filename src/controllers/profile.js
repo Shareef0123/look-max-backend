@@ -73,7 +73,7 @@ exports.getProfile = async (req, res) => {
       profile: {
         name: userData.name,
         phone: userData.phone,
-        photo: userData.photoUrl,
+        photo: userData.photoUrl || null,
       },
     });
   } catch (error) {

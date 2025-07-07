@@ -15,7 +15,15 @@ exports.generateFitnessPlan = async (req, res) => {
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
+    const userId = req.user.userId;
+    const snapshot = db
+      .collection("dietPlan")
+      .where("userId", "==", userId)
+      .get();
 
+    if (!snapshot.empty) {
+      res.status(406).json({ message: "fitness plan already generared" });
+    }
     const {
       gender,
       weight,
@@ -105,7 +113,7 @@ exports.generateFitnessPlan = async (req, res) => {
       callGeminiAndParseJSON(workoutPrompt),
     ]);
 
-    const userId = req.user.userId; // Firebase user doc ID
+    // const userId = req.user.userId; // Firebase user doc ID
 
     // ➤ Save fitness details in Firestore
     await db.collection("fitnessDetails").add({

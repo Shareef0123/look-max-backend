@@ -155,28 +155,49 @@ exports.generateWorkoutPrompt = ({
 }) => {
   return `Generate a 7-day workout plan in **valid JSON format only**.
 
-                                                                                                                                                                                                                Each day must include:
-                                                                                                                                                                                                                - A list of exercises.
-                                                                                                                                                                                                                - Each exercise must include the following:
-                                                                                                                                                                                                                  - "name": Name of the exercise (string),
-                                                                                                                                                                                                                    - "sets": Number of sets (number),
-                                                                                                                                                                                                                      - "reps": Number of repetitions (number or string like "30 seconds hold"),
-                                                                                                                                                                                                                        - "duration": Duration in minutes (string like "30 minutes") or "-" if not applicable
+The returned JSON must contain:
 
-                                                                                                                                                                                                                        Important:
-                                                                                                                                                                                                                        - Do NOT return "null" for reps or duration. If a field is not relevant, return "-" (string).
-                                                                                                                                                                                                                        - Make sure either "reps" or "duration" is always provided (not both null).
-                                                                                                                                                                                                                        - Use realistic workout routines based on the user's profile below.
-                                                                                                                                                                                                                        - Return only valid JSON. No explanations, markdown, or text outside the JSON.
+- "createdAt": Current date-time in ISO format (e.g., "2025-07-06T13:30:31.000Z")
+- "plan": {
+    "workoutPlan": [  // Array of 7 objects (Monday to Sunday)
+      {
+        "day": "Monday",
+        "exercises": [
+          {
+            "name": "Exercise Name",
+            "sets": 3,
+            "reps": 10,
+            "duration": "30 minutes" // OR "-" if not applicable
+          },
+          ...
+        ]
+      },
+      ...
+    ]
+  }
 
-                                                                                                                                                                                                                        User Info:
-                                                                                                                                                                                                                        - Gender: ${gender}
-                                                                                                                                                                                                                        - Age: ${age}
-                                                                                                                                                                                                                        - Weight: ${weight}kg → Target: ${targetWeight}kg in ${targetDate} days
-                                                                                                                                                                                                                        - Height: ${height}cm
-                                                                                                                                                                                                                        - Goal: ${goal}
-                                                                                                                                                                                                                        - Activity Level: ${activityLevel}
-                                                                                                                                                                                                                        - Weight Change Target: ${weightChangeAmount || 0}kg
-                                                                                                                                                                                                                        - Health Issues: ${healthIssues || "None"}
-                                                                                                                                                                                                                        `;
+🛑 Do NOT include any user info (gender, age, weight, etc.) in the output JSON.
+
+📌 Requirements:
+- Each day must contain **5 exercises** or 1 rest exercise (with name: "Rest", sets: 1, reps: "-", duration: "30 minutes").
+- Each "exercise" must include:
+  - "name" (string),
+  - "sets" (number),
+  - "reps" (number or string like "as many as possible" or "30 seconds hold"),
+  - "duration" (string like "30 minutes", or "-" if not relevant).
+- Either "reps" or "duration" must be present. Never use null.
+- Output **only valid JSON**. No explanations, no markdown, no comments.
+
+You must create this based on the user's fitness profile below (do not include this in the response):
+
+User Profile:
+- Gender: ${gender}
+- Age: ${age}
+- Weight: ${weight}kg → Target: ${targetWeight}kg in ${targetDate} days
+- Height: ${height}cm
+- Goal: ${goal}
+- Activity Level: ${activityLevel}
+- Weight Change Target: ${weightChangeAmount || 0}kg
+- Health Issues: ${healthIssues || "None"}
+`;
 };

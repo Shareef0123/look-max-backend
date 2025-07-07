@@ -55,6 +55,9 @@ exports.login = async (req, res) => {
       "phone" : user.phone,
       "Access Token": accessToken,
       "Refresh Token": refreshToken,
+      "photoUrl" : user.photoUrl || null
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ error: "server error" });
+  }
 };
