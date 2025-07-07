@@ -37,11 +37,16 @@ exports.getDietPlanForToday = async (req, res) => {
     if (!todayDiet) {
       return res.status(404).json({ error: `No diet found for ${todayKey}.` });
     }
+<<<<<<< HEAD
     const mealsWithIsDone = todayDiet.meals.map((meal) => ({
       ...meal,
       isDone: false,
     }));
     res.json({ day: todayKey, meals: mealsWithIsDone });
+=======
+
+    res.json({ day: todayKey, meals: todayDiet.meals });
+>>>>>>> 63fbeeced77bea01c5beb97d146447b715fe62c8
   } catch (error) {
     console.log(error);
     res.status(500).json({

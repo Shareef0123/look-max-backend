@@ -116,7 +116,10 @@ exports.generateFitnessPlan = async (req, res) => {
     // const userId = req.user.userId; // Firebase user doc ID
 
     // ➤ Save fitness details in Firestore
+<<<<<<< HEAD
     const now = new Date();
+=======
+>>>>>>> 63fbeeced77bea01c5beb97d146447b715fe62c8
     await db.collection("fitnessDetails").add({
       userId,
       age,
@@ -136,7 +139,10 @@ exports.generateFitnessPlan = async (req, res) => {
       adjustedTDEE: adjustedTDEE.toFixed(2),
       healthIssues,
       createdAt: new Date(),
+<<<<<<< HEAD
       completedDays: 0,
+=======
+>>>>>>> 63fbeeced77bea01c5beb97d146447b715fe62c8
     });
 
     // ➤ Save diet plan in Firestore
